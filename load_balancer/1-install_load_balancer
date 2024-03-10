@@ -1,11 +1,19 @@
 #!/usr/bin/env bash
-# Install the load balancer
+# bash script that installs HAProxy & makes configurations to meet the following requirements:
+#   - Distribute requests using a roundrobin algorithm
+#   - Make sure that HAproxy can be managed via an init script
+#   - Make sure that your servers are configured with the right hostnames: [STUDENT_ID]-web-01, [STUDENT_ID]-web-02
 
-
-sudo apt-get -y update
-sudo apt-get -y upgrade
-sudo apt-get -y install haproxy
-sudo sed -i 's/ENABLED=0/ENABLED=1/' /etc/default/haproxy
-sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.original
-sudo sed -i "$ a\listen 1124-lb-01\n\tbind *:80\n\tmode http\n\tbalance roundrobin\n\toption httpclose\n\toption forwardfor\n\tserver 5696-web-02 54.84.251.2:80 check\n\tserver 5696-web-01 107.23.48.93:80 check" /etc/haproxy/haproxy.cfg
-sudo service haproxy start
+apt-get -y install software-properties-common
+add-apt-repository ppa:vbernat/haproxy-1.8
+apt-get update
+apt-get -y install haproxy
+echo "ENABLED=1" >> /etc/default/haproxy
+printf %s "listen 5995-webs
+    bind *:80
+    mode http
+    balance roundrobin
+    server 5995-web-01	34.235.166.100 check
+    server 5995-web-02	54.221.59.128  check
+" >> /etc/haproxy/haproxy.cfg
+sudo service haproxy restart
