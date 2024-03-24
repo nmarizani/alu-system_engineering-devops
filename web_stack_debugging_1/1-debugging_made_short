@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# configures server to listen pn port 80 of all servers active IPv4 IPs
-ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-service nginx start
-kill "$(pgrep 'nginx' | head -1)"
+# make Me Lough bingo
+sudo rm /etc/nginx/sites-enabled/default
+sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+sudo service nginx stop
